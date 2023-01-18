@@ -1,4 +1,5 @@
-import { LockClosedIcon } from '@heroicons/react/solid';
+import { useAuth } from '@/hooks/useAuth';
+import { LockClosedIcon, RefreshIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FormEvent, useRef } from 'react';
@@ -6,13 +7,17 @@ import { FormEvent, useRef } from 'react';
 export default function LoginPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const {
+    signIn: { fn: signIn, loading, error },
+  } = useAuth();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
+    const email = emailRef.current?.value as string;
+    const password = passwordRef.current?.value as string;
 
+    signIn(email, password).then(() => console.log('Login Success'));
   };
 
   return (
@@ -76,13 +81,19 @@ export default function LoginPage() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-300 disabled:text-indigo-600"
+                disabled={loading}
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+                  {loading ? (
+                    <RefreshIcon className="h-5 w-5 text-indigo-600  animate-spin" aria-hidden="true" />
+                  ) : (
+                    <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+                  )}
                 </span>
                 Sign in
               </button>
+              {error && <p className="mt-4 text-red-600 font-semibold text-center">{error}</p>}
             </div>
           </form>
         </div>
