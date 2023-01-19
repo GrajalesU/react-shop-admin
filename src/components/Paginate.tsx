@@ -17,7 +17,6 @@ const Paginate = ({ totalItems, itemsPerPage, neighbors, setOffset }: PaginatePr
   const start = Math.min(Math.max(end - (neighbors * 2 + 1), 1), Math.max(current - neighbors, 1));
 
   for (let i = start; i < end; i++) {
-    console.log(i);
     items.push(
       <button
         key={`Paginador-${i}`}

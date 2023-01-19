@@ -1,6 +1,34 @@
+import { addProduct } from '@/services/api/products';
+import { Product } from '@/types/product';
+import { FormEvent, useRef } from 'react';
+
 export default function FormProduct() {
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (formRef.current !== null) {
+      const formData = new FormData(formRef.current);
+      const image = formData.get('images') as File;
+
+      console.log(image.name);
+
+      const data = {
+        title: formData.get('title') as string,
+        price: parseInt(formData.get('price') as string, 10) as number,
+        description: formData.get('description') as string,
+        categoryId: parseInt(formData.get('category') as string, 10) as number,
+        images: [new URL(`https://picsum.photos/640/400?${image.name}`)],
+      };
+
+      addProduct(data).then((response: Product) => {
+        console.log(response);
+      });
+    }
+  };
   return (
-    <form>
+    <form ref={formRef} onSubmit={handleSubmit}>
       <div className="overflow-hidden">
         <div className="px-4 py-5 bg-white sm:p-6">
           <div className="grid grid-cols-6 gap-6">
@@ -43,7 +71,7 @@ export default function FormProduct() {
                 id="description"
                 autoComplete="description"
                 rows={3}
-                className="form-textarea mt-1 block w-full mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                className="form-textarea mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               />
             </div>
             <div className="col-span-6">
