@@ -5,8 +5,9 @@ import Paginate from '@/components/Paginate';
 import useAlert from '@/hooks/useAlert';
 import useFetch from '@/hooks/useFetch';
 import endPoints from '@/services/api';
+import { deleteProduct } from '@/services/api/products';
 import { Product } from '@/types/product';
-import { PlusIcon } from '@heroicons/react/outline';
+import { PlusIcon, XCircleIcon } from '@heroicons/react/outline';
 import { useState } from 'react';
 
 const PRODUCT_LIMIT = 15;
@@ -19,6 +20,17 @@ export default function Products() {
   const totalProductsLength = totalProducts.length;
 
   const { alert, toggleAlert, setAlert } = useAlert();
+
+  const handleDelete = (id: number) => {
+    deleteProduct(id).then(() => {
+      setAlert({
+        active: true,
+        message: 'Delete product successfully',
+        type: 'error',
+        autoClose: true,
+      });
+    });
+  };
 
   return (
     <>
@@ -94,9 +106,9 @@ export default function Products() {
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="/edit" className="text-red-600 hover:text-red-900">
-                          Delete
-                        </a>
+                        <button className="text-red-600 hover:text-red-900" onClick={() => handleDelete(product.id)}>
+                          <XCircleIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer" />
+                        </button>
                       </td>
                     </tr>
                   ))}

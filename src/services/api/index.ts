@@ -5,16 +5,16 @@ const endPoints = {
   products: {
     list: (limit: number, offset: number) => `${API}/api/${VERSION}/products?limit=${limit}&offset=${offset}`,
     create: `${API}/api/${VERSION}/products`,
-    get: (id: string) => `${API}/api/${VERSION}/products/${id}`,
-    update: (id: string) => `${API}/api/${VERSION}/products/${id}`,
-    delete: (id: string) => `${API}/api/${VERSION}/products/${id}`,
+    get: (id: number) => `${API}/api/${VERSION}/products/${id}`,
+    update: (id: number) => `${API}/api/${VERSION}/products/${id}`,
+    delete: (id: number) => `${API}/api/${VERSION}/products/${id}`,
   },
   user: {
     list: (limit: number) => `${API}/api/${VERSION}/users?limit=${limit}`,
     create: `${API}/api/${VERSION}/users`,
-    get: (id: string) => `${API}/api/${VERSION}/users/${id}`,
-    update: (id: string) => `${API}/api/${VERSION}/users/${id}`,
-    delete: (id: string) => `${API}/api/${VERSION}/users/${id}`,
+    get: (id: number) => `${API}/api/${VERSION}/users/${id}`,
+    update: (id: number) => `${API}/api/${VERSION}/users/${id}`,
+    delete: (id: number) => `${API}/api/${VERSION}/users/${id}`,
     isAvailable: `${API}/api/${VERSION}/users/is-available`,
   },
   auth: {
@@ -25,10 +25,10 @@ const endPoints = {
   categories: {
     list: `${API}/api/${VERSION}/categories`,
     create: `${API}/api/${VERSION}/categories`,
-    get: (id: string) => `${API}/api/${VERSION}/categories/${id}`,
-    update: (id: string) => `${API}/api/${VERSION}/categories/${id}`,
-    delete: (id: string) => `${API}/api/${VERSION}/categories/${id}`,
-    listProducts: (id: string) => `${API}/api/${VERSION}/categories/${id}/products`,
+    get: (id: number) => `${API}/api/${VERSION}/categories/${id}`,
+    update: (id: number) => `${API}/api/${VERSION}/categories/${id}`,
+    delete: (id: number) => `${API}/api/${VERSION}/categories/${id}`,
+    listProducts: (id: number) => `${API}/api/${VERSION}/categories/${id}/products`,
   },
   files: {
     upload: `${API}/api/${VERSION}/files/upload`,

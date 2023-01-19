@@ -1,7 +1,7 @@
 import axios from 'axios';
 import endPoints from '.';
 
-type BodyType = {
+type BodyAddProductType = {
   title: string;
   price: number;
   description: string;
@@ -9,7 +9,7 @@ type BodyType = {
   images: URL[];
 };
 
-export const addProduct = async (body: BodyType) => {
+export const addProduct = async (body: BodyAddProductType) => {
   const config = {
     headers: {
       accept: '*/*',
@@ -17,9 +17,12 @@ export const addProduct = async (body: BodyType) => {
     },
   };
 
-  console.log(body);
-
   const response = await axios.post(endPoints.products.create, body, config);
 
+  return response.data;
+};
+
+export const deleteProduct = async (id: number) => {
+  const response = await axios.delete(endPoints.products.delete(id));
   return response.data;
 };
