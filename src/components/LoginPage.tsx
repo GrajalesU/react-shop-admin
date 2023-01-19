@@ -2,11 +2,13 @@ import { useAuth } from '@/hooks/useAuth';
 import { LockClosedIcon, RefreshIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FormEvent, useRef } from 'react';
 
 export default function LoginPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
   const {
     signIn: { fn: signIn, loading, error },
   } = useAuth();
@@ -17,7 +19,9 @@ export default function LoginPage() {
     const email = emailRef.current?.value as string;
     const password = passwordRef.current?.value as string;
 
-    signIn(email, password).then(() => console.log('Login Success'));
+    signIn(email, password).then(() => {
+      router.push('/dashboard');
+    });
   };
 
   return (

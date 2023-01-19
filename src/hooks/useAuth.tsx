@@ -12,11 +12,12 @@ enum roleEnum {
 }
 
 type User = {
+  id: number;
+  email: string;
+  name: string;
+  role: roleEnum;
   avatar: string;
   creationAt: string;
-  email: string;
-  id: number;
-  role: roleEnum;
   updatedAt: string;
 };
 
@@ -82,6 +83,7 @@ function useProvideAuth() {
         setError('Incorrect user or password. Try again');
         Cookie.remove('token');
       }
+      setUser(null);
     } finally {
       setLoading(false);
     }

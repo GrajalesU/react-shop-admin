@@ -1,12 +1,8 @@
+import { useAuth } from '@/hooks/useAuth';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Fragment } from 'react';
 
-const userData = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'Productos', href: '/dashboard/products/', current: false },
@@ -23,6 +19,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function Header() {
+  const { user } = useAuth();
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800">
@@ -64,7 +61,7 @@ export default function Header() {
                       <div>
                         <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                           <span className="sr-only">Open user menu</span>
-                          <img className="h-8 w-8 rounded-full" src={userData.imageUrl} alt="" />
+                          <img className="h-8 w-8 rounded-full" src={user?.avatar} alt="profile" />
                         </Menu.Button>
                       </div>
                       <Transition
@@ -118,11 +115,11 @@ export default function Header() {
               <div className="pt-4 pb-3 border-t border-gray-700">
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
-                    <img className="h-10 w-10 rounded-full" src={userData.imageUrl} alt="" />
+                    <img className="h-10 w-10 rounded-full" src={user?.avatar} alt="profile" />
                   </div>
                   <div className="ml-3">
-                    <div className="text-base font-medium leading-none text-white">{userData.name}</div>
-                    <div className="text-sm font-medium leading-none text-gray-400">{userData.email}</div>
+                    <div className="text-base font-medium leading-none text-white">{user?.name}</div>
+                    <div className="text-sm font-medium leading-none text-gray-400">{user?.email}</div>
                   </div>
                   <button
                     type="button"
