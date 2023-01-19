@@ -1,6 +1,8 @@
+import Alert from '@/common/Alert';
 import Modal from '@/common/Modal';
 import FormProduct from '@/components/FormProduct';
 import Paginate from '@/components/Paginate';
+import useAlert from '@/hooks/useAlert';
 import useFetch from '@/hooks/useFetch';
 import endPoints from '@/services/api';
 import { Product } from '@/types/product';
@@ -16,8 +18,11 @@ export default function Products() {
   const { data: totalProducts } = useFetch(endPoints.products.list(0, 0));
   const totalProductsLength = totalProducts.length;
 
+  const { alert, toggleAlert, setAlert } = useAlert();
+
   return (
     <>
+      <Alert alert={alert} handleClose={toggleAlert} />
       <div className="lg:flex lg:items-center lg:justify-between mb-8">
         <div className="flex-1 min-w-0">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">List of products</h2>
@@ -103,7 +108,7 @@ export default function Products() {
         </div>
       </div>
       <Modal open={open} setOpen={setOpen}>
-        <FormProduct />
+        <FormProduct setOpen={setOpen} setAlert={setAlert} />
       </Modal>
     </>
   );

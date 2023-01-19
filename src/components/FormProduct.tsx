@@ -1,8 +1,7 @@
 import { addProduct } from '@/services/api/products';
-import { Product } from '@/types/product';
 import { FormEvent, useRef } from 'react';
 
-export default function FormProduct() {
+export default function FormProduct({ setOpen, setAlert }: any) {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -12,8 +11,6 @@ export default function FormProduct() {
       const formData = new FormData(formRef.current);
       const image = formData.get('images') as File;
 
-      console.log(image.name);
-
       const data = {
         title: formData.get('title') as string,
         price: parseInt(formData.get('price') as string, 10) as number,
@@ -22,9 +19,25 @@ export default function FormProduct() {
         images: [new URL(`https://picsum.photos/640/400?${image.name}`)],
       };
 
-      addProduct(data).then((response: Product) => {
-        console.log(response);
-      });
+      addProduct(data)
+        .then(() => {
+          setAlert({
+            active: true,
+            message: 'Product added successfully',
+            type: 'success',
+            autoClose: false,
+          });
+
+          setOpen(false);
+        })
+        .catch((error: Error) => {
+          setAlert({
+            active: true,
+            message: error.message,
+            type: 'error',
+            autoClose: false,
+          });
+        });
     }
   };
   return (
